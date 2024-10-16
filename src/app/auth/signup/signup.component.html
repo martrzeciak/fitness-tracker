@@ -1,0 +1,81 @@
+<section class="flex justify-center items-center p-4">
+  <form
+    class="flex flex-col items-center w-full max-w-md"
+    #form="ngForm"
+    (ngSubmit)="onSubmit(form)"
+  >
+    <mat-form-field class="w-full mb-4">
+      <mat-label>Email</mat-label>
+      <input
+        matInput
+        type="email"
+        placeholder="email@example.com"
+        ngModel
+        name="email"
+        email
+        required
+        class="w-full"
+        #emailInput="ngModel"
+      />
+      @if (emailInput.hasError('required')) {
+      <mat-error>Email is required</mat-error>
+      } @else if (!emailInput.hasError('required')) {
+      <mat-error>Email is invalid</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field
+      class="w-full mb-4"
+      hintLabel="Should be at least 6 characters"
+    >
+      <mat-label>Password</mat-label>
+      <input
+        matInput
+        type="password"
+        ngModel
+        name="password"
+        required
+        minlength="6"
+        class="w-full"
+        #passwordInput="ngModel"
+      />
+
+      <mat-hint align="end">{{ passwordInput.value?.length }} / 6</mat-hint>
+      @if (passwordInput.hasError('required')) {
+      <mat-error>Password is required</mat-error>
+      } @else if (!passwordInput.hasError('required')) {
+      <mat-error>Password should be at least 6 character</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field class="w-full mb-1">
+      <mat-label>Birthdate</mat-label>
+      <input
+        matInput
+        placeholder="Your birthday"
+        [matDatepicker]="picker"
+        [max]="maxDate"
+        ngModel
+        name="birthdate"
+        required
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error>Birthdate is required</mat-error>
+    </mat-form-field>
+
+    <mat-checkbox [class.error]="agree.hasError('required')"  ngModel name="termsAndConditions" required #agree="ngModel"
+      >Agree to Terms and Conditions <span class="text-red-700">(required)</span></mat-checkbox
+    >
+
+    <button
+      type="submit"
+      mat-flat-button
+      color="primary"
+      class="bg-primary text-white uppercase text-lg py-4 px-6 w-full max-w-xs mt-4"
+      [disabled]="form.invalid"
+    >
+      Submit
+    </button>
+  </form>
+</section>
